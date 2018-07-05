@@ -2,7 +2,7 @@
     "name": "highlight-icemode",
     "displayName": "highlight-icemode",
     "description": "Highlight all selected occurrences of words. (border mode)",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "publisher": "iceliu",
     "icon": "images/icon.png",
     "engines": {

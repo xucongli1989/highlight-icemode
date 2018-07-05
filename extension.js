@@ -41,7 +41,7 @@ function activate(context) {
         }
         try {
             var text = activeEditor.document.getText();
-            var word = activeEditor.document.getText(activeEditor.selection);
+            var word = (activeEditor.document.getText(activeEditor.selection) || "").trim();
             word = word.replace(/[\W_]/g, "\\$&");  //在特殊字元前面加上 “\\” thanks harlen
             //console.log("1word:"+word);
             var mathes = {}, match;
