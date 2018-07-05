@@ -5,13 +5,13 @@ function activate(context) {
     var timeout = null;
     var activeEditor = vscode.window.activeTextEditor;
     var decorationTypes = {};
-  
+
 
     vscode.window.onDidChangeTextEditorSelection(function (event) {
         //var aaa = activeEditor.document.getText(activeEditor.selection);
         //console.log("1onDidChangeTextEditorSelection:" + aaa);
         triggerUpdateDecorations();
-    
+
     }, null, context.subscriptions);
 
     vscode.window.onDidChangeActiveTextEditor(function (editor) {
@@ -46,7 +46,10 @@ function activate(context) {
             //console.log("1word:"+word);
             var mathes = {}, match;
             var opts = 'gi';
-            var pattern = new RegExp('\\b'+word+'\\b', opts);
+            if (/^\w+$/.test(word)) {
+                word = `\\b${word}\\b`;
+            }
+            var pattern = new RegExp(word, opts);
             if (word != "") {
                 var config = vscode.workspace.getConfiguration('highlight-icemode');
                 var borderWidth = config.borderWidth;
@@ -67,7 +70,7 @@ function activate(context) {
                     }
 
                     if (!decorationTypes[matchedValue]) {
-                       
+
                         decorationTypes[matchedValue] = vscode.window.createTextEditorDecorationType({
                             borderStyle: 'solid',
                             borderWidth: borderWidth,
@@ -84,10 +87,10 @@ function activate(context) {
                 activeEditor.setDecorations(decorationType, range);
             })
         } catch (err) {
-            vscode.window.setStatusBarMessage("highlight-icemode got some error. but it's ok! dont' be afraid !",3000);
+            vscode.window.setStatusBarMessage("highlight-icemode got some error. but it's ok! dont' be afraid !", 3000);
             console.log(err.message);
         }
-        
+
     }
 }
 exports.activate = activate;
