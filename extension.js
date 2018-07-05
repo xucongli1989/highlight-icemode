@@ -46,7 +46,7 @@ function activate(context) {
             //console.log("1word:"+word);
             var mathes = {}, match;
             var opts = 'gi';
-            var pattern = new RegExp(word, opts);
+            var pattern = new RegExp('\\b'+word+'\\b', opts);
             if (word != "") {
                 var config = vscode.workspace.getConfiguration('highlight-icemode');
                 var borderWidth = config.borderWidth;
