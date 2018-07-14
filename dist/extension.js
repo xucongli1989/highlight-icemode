@@ -1,61 +1,47 @@
-
-var vscode = require('vscode');
-
-function activate(context) {
+"use strict";
+exports.__esModule = true;
+var vscode = require("vscode");
+var activate = function (context) {
     var timeout = null;
     var activeEditor = vscode.window.activeTextEditor;
     var decorationTypes = {};
-
-
-    vscode.window.onDidChangeTextEditorSelection(function (event) {
-        //var aaa = activeEditor.document.getText(activeEditor.selection);
-        //console.log("1onDidChangeTextEditorSelection:" + aaa);
+    vscode.window.onDidChangeTextEditorSelection(function () {
         triggerUpdateDecorations();
-
     }, null, context.subscriptions);
-
     vscode.window.onDidChangeActiveTextEditor(function (editor) {
         activeEditor = editor;
         if (editor) {
             triggerUpdateDecorations();
         }
     }, null, context.subscriptions);
-
     vscode.workspace.onDidChangeTextDocument(function (event) {
         if (activeEditor && event.document === activeEditor.document) {
             triggerUpdateDecorations();
         }
     }, null, context.subscriptions);
-
-
-    //vscode.window.showInformationMessage(test);
-
-    function triggerUpdateDecorations() {
+    var triggerUpdateDecorations = function () {
         timeout && clearTimeout(timeout);
         timeout = setTimeout(updateDecorations, 50);
-    }
-
-    function updateDecorations() {
+    };
+    var updateDecorations = function () {
         if (!activeEditor || !activeEditor.document) {
             return;
         }
         try {
-            var text = activeEditor.document.getText();
-            var word = (activeEditor.document.getText(activeEditor.selection) || "").trim();
-            word = word.replace(/[\W_]/g, "\\$&");  //在特殊字元前面加上 “\\” thanks harlen
-            //console.log("1word:"+word);
-            var mathes = {}, match;
+            var word = (activeEditor.document.getText(activeEditor.selection) || "").trim().replace(/[\W_]/g, "\\$&");
+            var mathes_1 = {}, match = void 0;
             var opts = 'gi';
-            if (/^\w+$/.test(word)) {
-                word = `\\b${word}\\b`;
+            if (word && /^\w+$/.test(word)) {
+                word = "\\b" + word + "\\b";
             }
             var pattern = new RegExp(word, opts);
-            if (word != "") {
+            if (word) {
                 var config = vscode.workspace.getConfiguration('highlight-icemode');
                 var borderWidth = config.borderWidth;
                 var borderRadius = config.borderRadius;
                 var borderColor = config.borderColor;
                 var backgroundColor = config.backgroundColor;
+                var text = activeEditor.document.getText();
                 while (match = pattern.exec(text)) {
                     var startPos = activeEditor.document.positionAt(match.index);
                     var endPos = activeEditor.document.positionAt(match.index + match[0].length);
@@ -63,14 +49,13 @@ function activate(context) {
                         range: new vscode.Range(startPos, endPos)
                     };
                     var matchedValue = match[0];
-                    if (mathes[matchedValue]) {
-                        mathes[matchedValue].push(range);
-                    } else {
-                        mathes[matchedValue] = [range];
+                    if (mathes_1[matchedValue]) {
+                        mathes_1[matchedValue].push(range);
                     }
-
+                    else {
+                        mathes_1[matchedValue] = [range];
+                    }
                     if (!decorationTypes[matchedValue]) {
-
                         decorationTypes[matchedValue] = vscode.window.createTextEditorDecorationType({
                             borderStyle: 'solid',
                             borderWidth: borderWidth,
@@ -81,21 +66,20 @@ function activate(context) {
                     }
                 }
             }
-            Object.keys(decorationTypes).forEach((v) => {
-                var range = mathes[v] ? mathes[v] : [];
+            Object.keys(decorationTypes).forEach(function (v) {
+                var range = mathes_1[v] ? mathes_1[v] : [];
                 var decorationType = decorationTypes[v];
                 activeEditor.setDecorations(decorationType, range);
-            })
-        } catch (err) {
+            });
+        }
+        catch (err) {
             vscode.window.setStatusBarMessage("highlight-icemode got some error. but it's ok! dont' be afraid !", 3000);
             console.log(err.message);
         }
-
-    }
-}
+    };
+};
 exports.activate = activate;
-
-
-function deactivate() {
-}
+var deactivate = function () {
+};
 exports.deactivate = deactivate;
+//# sourceMappingURL=extension.js.map
