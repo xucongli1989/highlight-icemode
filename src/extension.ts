@@ -39,7 +39,7 @@ const activate = (context) => {
             }
             try {
                 let mathes = {}, match;
-                let opts = 'gi';
+                let opts = config.ignoreCase ? 'gi' : 'g';
                 if (word && /^\w+$/.test(word)) {
                     word = `\\b${word}\\b`;
                 }

@@ -49,6 +49,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Highlight all visible document editors together"
+                },
+                "highlight-icemode.ignoreCase": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Highlight selected text with ignore case"
                 }
             }
         }

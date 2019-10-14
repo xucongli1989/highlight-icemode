@@ -35,7 +35,7 @@ var activate = function (context) {
             }
             try {
                 var mathes_1 = {}, match = void 0;
-                var opts = 'gi';
+                var opts = config.ignoreCase ? 'gi' : 'g';
                 if (word && /^\w+$/.test(word)) {
                     word = "\\b" + word + "\\b";
                 }
