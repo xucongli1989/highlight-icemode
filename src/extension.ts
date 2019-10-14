@@ -28,65 +28,69 @@ const activate = (context) => {
     }
 
     const updateDecorations = () => {
-        if (!activeEditor || !activeEditor.document) {
-            return;
+        let config = vscode.workspace.getConfiguration('highlight-icemode');
+        let word = ""
+        if (activeEditor && activeEditor.document) {
+            word = (activeEditor.document.getText(activeEditor.selection) || "").trim().replace(/[\W_]/g, "\\$&");
         }
-
-        try {
-            let word = (activeEditor.document.getText(activeEditor.selection) || "").trim().replace(/[\W_]/g, "\\$&");
-            let mathes = {}, match;
-            let opts = 'gi';
-
-            if (word && /^\w+$/.test(word)) {
-                word = `\\b${word}\\b`;
+        const update = (editor) => {
+            if (!editor || !editor.document) {
+                return;
             }
-
-            let pattern = new RegExp(word, opts);
-
-            if (word) {
-                let config = vscode.workspace.getConfiguration('highlight-icemode');
-                let borderWidth = config.borderWidth;
-                let borderRadius = config.borderRadius;
-                let borderColor = config.borderColor;
-                let backgroundColor = config.backgroundColor;
-                let text = activeEditor.document.getText();
-
-                while (match = pattern.exec(text)) {
-                    let startPos = activeEditor.document.positionAt(match.index);
-                    let endPos = activeEditor.document.positionAt(match.index + match[0].length);
-
-                    let range = {
-                        range: new vscode.Range(startPos, endPos)
-                    };
-                    let matchedValue = match[0];
-                    if (mathes[matchedValue]) {
-                        mathes[matchedValue].push(range);
-                    } else {
-                        mathes[matchedValue] = [range];
-                    }
-
-                    if (!decorationTypes[matchedValue]) {
-                        decorationTypes[matchedValue] = vscode.window.createTextEditorDecorationType({
-                            borderStyle: 'solid',
-                            borderWidth: borderWidth,
-                            borderRadius: borderRadius,
-                            borderColor: borderColor,
-                            backgroundColor: backgroundColor
-                        });
+            try {
+                let mathes = {}, match;
+                let opts = 'gi';
+                if (word && /^\w+$/.test(word)) {
+                    word = `\\b${word}\\b`;
+                }
+                let pattern = new RegExp(word, opts);
+                if (word) {
+                    let borderWidth = config.borderWidth;
+                    let borderRadius = config.borderRadius;
+                    let borderColor = config.borderColor;
+                    let backgroundColor = config.backgroundColor;
+                    let text = editor.document.getText();
+                    while (match = pattern.exec(text)) {
+                        let startPos = editor.document.positionAt(match.index);
+                        let endPos = editor.document.positionAt(match.index + match[0].length);
+                        let range = {
+                            range: new vscode.Range(startPos, endPos)
+                        };
+                        let matchedValue = match[0];
+                        if (mathes[matchedValue]) {
+                            mathes[matchedValue].push(range);
+                        } else {
+                            mathes[matchedValue] = [range];
+                        }
+                        if (!decorationTypes[matchedValue]) {
+                            decorationTypes[matchedValue] = vscode.window.createTextEditorDecorationType({
+                                borderStyle: 'solid',
+                                borderWidth: borderWidth,
+                                borderRadius: borderRadius,
+                                borderColor: borderColor,
+                                backgroundColor: backgroundColor
+                            });
+                        }
                     }
                 }
+                Object.keys(decorationTypes).forEach((v) => {
+                    let range = mathes[v] ? mathes[v] : [];
+                    let decorationType = decorationTypes[v];
+                    editor.setDecorations(decorationType, range);
+                })
+            } catch (err) {
+                vscode.window.setStatusBarMessage("highlight-icemode got some error. but it's ok! dont' be afraid !", 3000);
+                console.log(err.message);
             }
-
-            Object.keys(decorationTypes).forEach((v) => {
-                let range = mathes[v] ? mathes[v] : [];
-                let decorationType = decorationTypes[v];
-                activeEditor.setDecorations(decorationType, range);
-            })
-        } catch (err) {
-            vscode.window.setStatusBarMessage("highlight-icemode got some error. but it's ok! dont' be afraid !", 3000);
-            console.log(err.message);
         }
-
+        //开始高亮
+        if (config.highlightAllEditors) {
+            vscode.window.visibleTextEditors.forEach(editor => {
+                update(editor)
+            })
+        } else {
+            update(activeEditor)
+        }
     }
 }
 

@@ -2,7 +2,7 @@
     "name": "highlight-icemode-select",
     "displayName": "highlight-icemode-select",
     "description": "Highlight all selected occurrences of words. (border mode)",
-    "version": "0.0.10",
+    "version": "1.0.0",
     "publisher": "xucongli1989",
     "icon": "images/icon.png",
     "engines": {
@@ -17,10 +17,8 @@
     ],
     "main": "./dist/extension",
     "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
+        "dist": "tsc -p ./ && vsce package",
+        "start": "tsc -watch -p ./"
     },
     "contributes": {
         "configuration": {
@@ -44,8 +42,13 @@
                 },
                 "highlight-icemode.backgroundColor": {
                     "type": "string",
-                    "default": "",
+                    "default": "#0f0",
                     "description": "Set backgroundColor"
+                },
+                "highlight-icemode.highlightAllEditors": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Highlight all visible document editors together"
                 }
             }
         }

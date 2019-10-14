@@ -24,57 +24,71 @@ var activate = function (context) {
         timeout = setTimeout(updateDecorations, 50);
     };
     var updateDecorations = function () {
-        if (!activeEditor || !activeEditor.document) {
-            return;
+        var config = vscode.workspace.getConfiguration('highlight-icemode');
+        var word = "";
+        if (activeEditor && activeEditor.document) {
+            word = (activeEditor.document.getText(activeEditor.selection) || "").trim().replace(/[\W_]/g, "\\$&");
         }
-        try {
-            var word = (activeEditor.document.getText(activeEditor.selection) || "").trim().replace(/[\W_]/g, "\\$&");
-            var mathes_1 = {}, match = void 0;
-            var opts = 'gi';
-            if (word && /^\w+$/.test(word)) {
-                word = "\\b" + word + "\\b";
+        var update = function (editor) {
+            if (!editor || !editor.document) {
+                return;
             }
-            var pattern = new RegExp(word, opts);
-            if (word) {
-                var config = vscode.workspace.getConfiguration('highlight-icemode');
-                var borderWidth = config.borderWidth;
-                var borderRadius = config.borderRadius;
-                var borderColor = config.borderColor;
-                var backgroundColor = config.backgroundColor;
-                var text = activeEditor.document.getText();
-                while (match = pattern.exec(text)) {
-                    var startPos = activeEditor.document.positionAt(match.index);
-                    var endPos = activeEditor.document.positionAt(match.index + match[0].length);
-                    var range = {
-                        range: new vscode.Range(startPos, endPos)
-                    };
-                    var matchedValue = match[0];
-                    if (mathes_1[matchedValue]) {
-                        mathes_1[matchedValue].push(range);
-                    }
-                    else {
-                        mathes_1[matchedValue] = [range];
-                    }
-                    if (!decorationTypes[matchedValue]) {
-                        decorationTypes[matchedValue] = vscode.window.createTextEditorDecorationType({
-                            borderStyle: 'solid',
-                            borderWidth: borderWidth,
-                            borderRadius: borderRadius,
-                            borderColor: borderColor,
-                            backgroundColor: backgroundColor
-                        });
+            try {
+                var mathes_1 = {}, match = void 0;
+                var opts = 'gi';
+                if (word && /^\w+$/.test(word)) {
+                    word = "\\b" + word + "\\b";
+                }
+                var pattern = new RegExp(word, opts);
+                if (word) {
+                    var borderWidth = config.borderWidth;
+                    var borderRadius = config.borderRadius;
+                    var borderColor = config.borderColor;
+                    var backgroundColor = config.backgroundColor;
+                    var text = editor.document.getText();
+                    while (match = pattern.exec(text)) {
+                        var startPos = editor.document.positionAt(match.index);
+                        var endPos = editor.document.positionAt(match.index + match[0].length);
+                        var range = {
+                            range: new vscode.Range(startPos, endPos)
+                        };
+                        var matchedValue = match[0];
+                        if (mathes_1[matchedValue]) {
+                            mathes_1[matchedValue].push(range);
+                        }
+                        else {
+                            mathes_1[matchedValue] = [range];
+                        }
+                        if (!decorationTypes[matchedValue]) {
+                            decorationTypes[matchedValue] = vscode.window.createTextEditorDecorationType({
+                                borderStyle: 'solid',
+                                borderWidth: borderWidth,
+                                borderRadius: borderRadius,
+                                borderColor: borderColor,
+                                backgroundColor: backgroundColor
+                            });
+                        }
                     }
                 }
+                Object.keys(decorationTypes).forEach(function (v) {
+                    var range = mathes_1[v] ? mathes_1[v] : [];
+                    var decorationType = decorationTypes[v];
+                    editor.setDecorations(decorationType, range);
+                });
             }
-            Object.keys(decorationTypes).forEach(function (v) {
-                var range = mathes_1[v] ? mathes_1[v] : [];
-                var decorationType = decorationTypes[v];
-                activeEditor.setDecorations(decorationType, range);
+            catch (err) {
+                vscode.window.setStatusBarMessage("highlight-icemode got some error. but it's ok! dont' be afraid !", 3000);
+                console.log(err.message);
+            }
+        };
+        //开始高亮
+        if (config.highlightAllEditors) {
+            vscode.window.visibleTextEditors.forEach(function (editor) {
+                update(editor);
             });
         }
-        catch (err) {
-            vscode.window.setStatusBarMessage("highlight-icemode got some error. but it's ok! dont' be afraid !", 3000);
-            console.log(err.message);
+        else {
+            update(activeEditor);
         }
     };
 };

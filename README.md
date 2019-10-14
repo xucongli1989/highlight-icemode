@@ -10,6 +10,7 @@ Thanks for original author.
 
 - Whole English chars , underlines  and numbers use exact match
 - Ignore whitespace in start of chars or end of chars
+- Some attributes have been extended
 
 ### Preview
 
