@@ -13,6 +13,10 @@ Thanks for original author.
 - Highlight all visible document editors together
 - Highlight selected text with ignore case
 
+# Install
+
+https://marketplace.visualstudio.com/items?itemName=xucongli1989.highlight-icemode-select
+
 # Preview
 
 ![priview](images/preview.gif)
