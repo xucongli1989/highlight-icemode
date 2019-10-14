@@ -1,4 +1,4 @@
-### What's this
+# What's this
 
 This is a `highlight select words` plugin for Visual Studio Code.It's very useful when you are reading code.
 
@@ -6,17 +6,21 @@ Current project you see, is based on [highlight-icemode](https://github.com/EsIc
 
 Thanks for original author.
 
-### My Changes
+# My Changes
 
 - Whole English chars , underlines  and numbers use exact match
 - Ignore whitespace in start of chars or end of chars
 - Highlight all visible document editors together
 - Highlight selected text with ignore case
 
-### Preview
+# Preview
 
 ![priview](images/preview.gif)
 
-### Issue
+---
+
+![](images/1.gif)
+
+# Outstanding problem
 
 I cannot get the fold flag when the chars in  the block like `// #region ...`,because the plugin should highlight the folder flag when the chars exist in the hidden block.
