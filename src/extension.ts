@@ -33,7 +33,7 @@ const activate = (context) => {
         if (activeEditor && activeEditor.document) {
             word = (activeEditor.document.getText(activeEditor.selection) || "").trim().replace(/[\W_]/g, "\\$&");
         }
-        const update = (editor) => {
+        const update = (editor: vscode.TextEditor) => {
             if (!editor || !editor.document) {
                 return;
             }
