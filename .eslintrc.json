@@ -1,0 +1,140 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "amd": true,
+    "commonjs": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint-config-airbnb-typescript",
+    "eslint-config-airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "globals": {
+    "__webpack_public_path__": true
+  },
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/alt-text": "off",
+    "react/no-danger": "off",
+    "react/self-closing-comp": "off",
+    "react/no-array-index-key": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-closing-bracket-location": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-indent-props": "off",
+    "react/jsx-no-target-blank": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-continue": "off",
+    "guard-for-in": "off",
+    "no-bitwise": "off",
+    "max-classes-per-file": "off",
+    "no-param-reassign": "off",
+    "no-restricted-globals": "off",
+    "no-underscore-dangle": "off",
+    "arrow-body-style": "off",
+    "default-case": "off",
+    "no-console": "off",
+    "import/no-cycle": "off",
+    "linebreak-style": "off",
+    "arrow-parens": "off",
+    "eol-last": "off",
+    "no-plusplus": "off",
+    "no-multiple-empty-lines": "off",
+    "object-curly-newline": "off",
+    "max-len": "off",
+    "spaced-comment": "off",
+    "prefer-template": "off",
+    "eqeqeq": "off",
+    "no-alert": "off",
+    "prefer-destructuring": "off",
+    "import/prefer-default-export": "off",
+    "no-restricted-syntax": "off",
+    "radix": "off",
+    "operator-linebreak": "off",
+    "@typescript-eslint/no-loop-func": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/prefer-regexp-exec": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/restrict-plus-operands": "off",
+    "@typescript-eslint/quotes": "off",
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/consistent-type-assertions": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true
+      }
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": false,
+        "enums": true,
+        "variables": true,
+        "typedefs": false,
+        "ignoreTypeReferences": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "test/**/*"
+      ],
+      "env": {
+        "jest": true,
+        "qunit": true,
+        "jasmine": true,
+        "mocha": true
+      }
+    },
+    {
+      "files": [
+        "**/*.stories.*"
+      ],
+      "rules": {
+        "import/no-default-export": "off",
+        "import/no-extraneous-dependencies": "off",
+        "react-hooks/rules-of-hooks": "off"
+      }
+    }
+  ]
+}

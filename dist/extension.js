@@ -1,30 +1,13 @@
 "use strict";
 exports.__esModule = true;
+exports.deactivate = exports.activate = void 0;
 var vscode = require("vscode");
 var activate = function (context) {
     var timeout = null;
     var activeEditor = vscode.window.activeTextEditor;
     var decorationTypes = {};
-    vscode.window.onDidChangeTextEditorSelection(function () {
-        triggerUpdateDecorations();
-    }, null, context.subscriptions);
-    vscode.window.onDidChangeActiveTextEditor(function (editor) {
-        activeEditor = editor;
-        if (editor) {
-            triggerUpdateDecorations();
-        }
-    }, null, context.subscriptions);
-    vscode.workspace.onDidChangeTextDocument(function (event) {
-        if (activeEditor && event.document === activeEditor.document) {
-            triggerUpdateDecorations();
-        }
-    }, null, context.subscriptions);
-    var triggerUpdateDecorations = function () {
-        timeout && clearTimeout(timeout);
-        timeout = setTimeout(updateDecorations, 50);
-    };
     var updateDecorations = function () {
-        var config = vscode.workspace.getConfiguration('highlight-icemode');
+        var config = vscode.workspace.getConfiguration("highlight-icemode");
         var word = "";
         if (activeEditor && activeEditor.document) {
             word = (activeEditor.document.getText(activeEditor.selection) || "").trim().replace(/[\W_]/g, "\\$&");
@@ -34,9 +17,9 @@ var activate = function (context) {
                 return;
             }
             try {
-                var ignoreSelection = config.ignoreSelection;
-                var mathes_1 = {}, match = void 0;
-                var opts = config.ignoreCase ? 'gi' : 'g';
+                var mathes_1 = {};
+                var match = void 0;
+                var opts = config.ignoreCase ? "gi" : "g";
                 if (word && /^\w+$/.test(word)) {
                     word = "\\b" + word + "\\b";
                 }
@@ -47,7 +30,8 @@ var activate = function (context) {
                     var borderColor = config.borderColor;
                     var backgroundColor = config.backgroundColor;
                     var text = editor.document.getText();
-                    while (match = pattern.exec(text)) {
+                    // eslint-disable-next-line no-cond-assign
+                    while ((match = pattern.exec(text))) {
                         var startPos = editor.document.positionAt(match.index);
                         var endPos = editor.document.positionAt(match.index + match[0].length);
                         var range = {
@@ -62,7 +46,7 @@ var activate = function (context) {
                         }
                         if (!decorationTypes[matchedValue]) {
                             decorationTypes[matchedValue] = vscode.window.createTextEditorDecorationType({
-                                borderStyle: 'solid',
+                                borderStyle: "solid",
                                 borderWidth: borderWidth,
                                 borderRadius: borderRadius,
                                 borderColor: borderColor,
@@ -73,14 +57,6 @@ var activate = function (context) {
                 }
                 Object.keys(decorationTypes).forEach(function (v) {
                     var range = mathes_1[v] ? mathes_1[v] : [];
-                    range = range.filter(function (o) {
-                        return ignoreSelection ? !(
-                            o.range._start._line === activeEditor.selection._start._line &&
-                            o.range._end._line === activeEditor.selection._end._line &&
-                            o.range._start._character === activeEditor.selection._start._character &&
-                            o.range._end._character === activeEditor.selection._end._character
-                        ) : true;
-                    });
                     var decorationType = decorationTypes[v];
                     editor.setDecorations(decorationType, range);
                 });
@@ -100,9 +76,28 @@ var activate = function (context) {
             update(activeEditor);
         }
     };
+    var triggerUpdateDecorations = function () {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(updateDecorations, 50);
+    };
+    vscode.window.onDidChangeTextEditorSelection(function () {
+        triggerUpdateDecorations();
+    }, null, context.subscriptions);
+    vscode.window.onDidChangeActiveTextEditor(function (editor) {
+        activeEditor = editor;
+        if (editor) {
+            triggerUpdateDecorations();
+        }
+    }, null, context.subscriptions);
+    vscode.workspace.onDidChangeTextDocument(function (event) {
+        if (activeEditor && event.document === activeEditor.document) {
+            triggerUpdateDecorations();
+        }
+    }, null, context.subscriptions);
 };
 exports.activate = activate;
-var deactivate = function () {
-};
+var deactivate = function () { };
 exports.deactivate = deactivate;
 //# sourceMappingURL=extension.js.map

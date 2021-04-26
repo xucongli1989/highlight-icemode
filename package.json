@@ -1,75 +1,85 @@
 {
-    "name": "highlight-icemode-select",
-    "displayName": "highlight-icemode-select",
-    "description": "Highlight all selected occurrences of words. (border mode)",
-    "version": "1.0.0",
-    "publisher": "xucongli1989",
-    "icon": "images/icon.png",
-    "engines": {
-        "vscode": "^1.1.18"
-    },
-    "categories": [
-        "Other",
-        "Formatters"
-    ],
-    "activationEvents": [
-        "*"
-    ],
-    "main": "./dist/extension",
-    "scripts": {
-        "dist": "tsc -p ./ && vsce package",
-        "start": "tsc -watch -p ./"
-    },
-    "contributes": {
-        "configuration": {
-            "type": "object",
-            "title": "highlight-icemode configuration",
-            "properties": {
-                "highlight-icemode.borderWidth": {
-                    "type": "string",
-                    "default": "1px",
-                    "description": "Set Border Size"
-                },
-                "highlight-icemode.borderRadius": {
-                    "type": "string",
-                    "default": "3px",
-                    "description": "Set Border Radius"
-                },
-                "highlight-icemode.borderColor": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Set Border Color"
-                },
-                "highlight-icemode.backgroundColor": {
-                    "type": "string",
-                    "default": "#0f0",
-                    "description": "Set backgroundColor"
-                },
-                "highlight-icemode.highlightAllEditors": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Highlight all visible document editors together"
-                },
-                "highlight-icemode.ignoreCase": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Highlight selected text with ignore case"
-                },
-                "highlight-icemode.ignoreSelection": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Do not highlight current selection"
-                }
-            }
+  "name": "highlight-icemode-select",
+  "displayName": "highlight-icemode-select",
+  "description": "Highlight all selected occurrences of words. (border mode)",
+  "version": "1.1.0",
+  "publisher": "xucongli1989",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.1.18"
+  },
+  "categories": [
+    "Other",
+    "Formatters"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension",
+  "scripts": {
+    "check": "x-code-inspect",
+    "dist": "npm run check && tsc -p ./ && vsce package",
+    "start": "tsc -watch -p ./"
+  },
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "highlight-icemode configuration",
+      "properties": {
+        "highlight-icemode.borderWidth": {
+          "type": "string",
+          "default": "1px",
+          "description": "Set Border Size"
+        },
+        "highlight-icemode.borderRadius": {
+          "type": "string",
+          "default": "3px",
+          "description": "Set Border Radius"
+        },
+        "highlight-icemode.borderColor": {
+          "type": "string",
+          "default": "",
+          "description": "Set Border Color"
+        },
+        "highlight-icemode.backgroundColor": {
+          "type": "string",
+          "default": "#0f0",
+          "description": "Set backgroundColor"
+        },
+        "highlight-icemode.highlightAllEditors": {
+          "type": "boolean",
+          "default": true,
+          "description": "Highlight all visible document editors together"
+        },
+        "highlight-icemode.ignoreCase": {
+          "type": "boolean",
+          "default": false,
+          "description": "Highlight selected text with ignore case"
         }
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/xucongli1989/highlight-icemode"
-    },
-    "devDependencies": {
-        "@types/node": "^10.5.2",
-        "typescript": "^2.9.2",
-        "vscode": "^1.1.18"
+      }
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xucongli1989/highlight-icemode"
+  },
+  "devDependencies": {
+    "@types/node": "10.5.2",
+    "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@typescript-eslint/parser": "4.22.0",
+    "babel-eslint": "10.1.0",
+    "eslint": "7.25.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-config-airbnb-typescript": "12.3.1",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-react": "7.23.2",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "prettier": "2.2.1",
+    "typescript": "4.2.4",
+    "vsce": "1.87.1",
+    "vscode": "1.1.37",
+    "x-code-inspect": "1.3.4",
+    "x-package-version-strict-check": "1.7.0"
+  }
 }
