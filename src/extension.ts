@@ -68,10 +68,10 @@ const activate = (context) => {
                     if (config.ignoreSelection) {
                         range = range.filter((o) => {
                             return !(
-                                o.range._start._line === (activeEditor.selection as any)._start._line &&
-                                o.range._end._line === (activeEditor.selection as any)._end._line &&
-                                o.range._start._character === (activeEditor.selection as any)._start._character &&
-                                o.range._end._character === (activeEditor.selection as any)._end._character
+                                o.range.start.line === activeEditor.selection.start.line &&
+                                o.range.end.line === activeEditor.selection.end.line &&
+                                o.range.start.character === activeEditor.selection.start.character &&
+                                o.range.end.character === activeEditor.selection.end.character
                             )
                         })
                     }

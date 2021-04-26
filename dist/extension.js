@@ -59,10 +59,10 @@ var activate = function (context) {
                     var range = mathes_1[v] ? mathes_1[v] : [];
                     if (config.ignoreSelection) {
                         range = range.filter(function (o) {
-                            return !(o.range._start._line === activeEditor.selection._start._line &&
-                                o.range._end._line === activeEditor.selection._end._line &&
-                                o.range._start._character === activeEditor.selection._start._character &&
-                                o.range._end._character === activeEditor.selection._end._character);
+                            return !(o.range.start.line === activeEditor.selection.start.line &&
+                                o.range.end.line === activeEditor.selection.end.line &&
+                                o.range.start.character === activeEditor.selection.start.character &&
+                                o.range.end.character === activeEditor.selection.end.character);
                         });
                     }
                     var decorationType = decorationTypes[v];
