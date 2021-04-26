@@ -57,6 +57,14 @@ var activate = function (context) {
                 }
                 Object.keys(decorationTypes).forEach(function (v) {
                     var range = mathes_1[v] ? mathes_1[v] : [];
+                    if (config.ignoreSelection) {
+                        range = range.filter(function (o) {
+                            return !(o.range._start._line === activeEditor.selection._start._line &&
+                                o.range._end._line === activeEditor.selection._end._line &&
+                                o.range._start._character === activeEditor.selection._start._character &&
+                                o.range._end._character === activeEditor.selection._end._character);
+                        });
+                    }
                     var decorationType = decorationTypes[v];
                     editor.setDecorations(decorationType, range);
                 });

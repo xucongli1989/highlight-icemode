@@ -7,6 +7,7 @@ interface ConfigType {
     backgroundColor: string
     highlightAllEditors: boolean
     ignoreCase: boolean
+    ignoreSelection: boolean
 }
 
 const activate = (context) => {
@@ -63,7 +64,17 @@ const activate = (context) => {
                     }
                 }
                 Object.keys(decorationTypes).forEach((v) => {
-                    const range = mathes[v] ? mathes[v] : []
+                    let range = mathes[v] ? mathes[v] : []
+                    if (config.ignoreSelection) {
+                        range = range.filter((o) => {
+                            return !(
+                                o.range._start._line === (activeEditor.selection as any)._start._line &&
+                                o.range._end._line === (activeEditor.selection as any)._end._line &&
+                                o.range._start._character === (activeEditor.selection as any)._start._character &&
+                                o.range._end._character === (activeEditor.selection as any)._end._character
+                            )
+                        })
+                    }
                     const decorationType = decorationTypes[v]
                     editor.setDecorations(decorationType, range)
                 })
