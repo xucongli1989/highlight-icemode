@@ -34,6 +34,7 @@ var activate = function (context) {
                 return;
             }
             try {
+                var ignoreSelection = config.ignoreSelection;
                 var mathes_1 = {}, match = void 0;
                 var opts = config.ignoreCase ? 'gi' : 'g';
                 if (word && /^\w+$/.test(word)) {
@@ -73,12 +74,12 @@ var activate = function (context) {
                 Object.keys(decorationTypes).forEach(function (v) {
                     var range = mathes_1[v] ? mathes_1[v] : [];
                     range = range.filter(function (o) {
-                        return !(
+                        return ignoreSelection ? !(
                             o.range._start._line === activeEditor.selection._start._line &&
                             o.range._end._line === activeEditor.selection._end._line &&
                             o.range._start._character === activeEditor.selection._start._character &&
                             o.range._end._character === activeEditor.selection._end._character
-                        );
+                        ) : true;
                     });
                     var decorationType = decorationTypes[v];
                     editor.setDecorations(decorationType, range);

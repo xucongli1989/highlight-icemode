@@ -54,6 +54,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Highlight selected text with ignore case"
+                },
+                "highlight-icemode.ignoreSelection": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Do not highlight current selection"
                 }
             }
         }
